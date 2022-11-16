@@ -4,7 +4,7 @@ import gpio
 import smbus
 
 
-def read_i2c_pot(bus, address, CONFIG):
+def read_pot(bus, address, CONFIG):
     bus.write_byte(address, CONFIG)
     time.sleep(0.1)
     data = bus.read_i2c_block_data(address, 0x00, 2)
@@ -19,20 +19,24 @@ def get_waiting_time(pot):
 
 def mode_chenille(bus, address, CONFIG, lp, bp):
     state = [1, 0, 0, 0]  # Si besoin on peut changer l'affichage
-    offset = 0
-    fwd = True
+    offset = 0  # Permet le décalage de state pour chaque lumière
+    fwd = True  # Booléen indiquant le sens de la chenille
     while True:
         while gpio.readpin(bp) is True:  # Tant que le bouton est relaché
-            offset = (offset + (1 if fwd else -1)) % len(state)
-            for i in range(len(lp)):
-                gpio.setpin(lp[i], state[(i + offset) % len(state)])
-            time.sleep(get_waiting_time(read_i2c_pot(bus, address, CONFIG)))
+            offset = (offset + (1 if fwd else -1)) % len(state)  # On décale l'offset
+            for i in range(len(lp)):  # Pour toutes les led
+                gpio.setpin(
+                    lp[i], state[(i + offset) % len(state)]
+                )  # On met la bonne valeur en fonction de state et offset
+            time.sleep(
+                get_waiting_time(read_pot(bus, address, CONFIG))
+            )  # On attend le temps qu'il faut indiqué par le potentionmètre
         fwd = not fwd  # On inverse le sens
         while gpio.readpin(bp) is False:  # Tant que le bouton est enfoncé
             offset = (offset + (1 if fwd else -1)) % len(state)
             for i in range(len(lp)):
                 gpio.setpin(lp[i], state[(i + offset) % len(state)])
-            time.sleep(get_waiting_time(read_i2c_pot(bus, address, CONFIG)))
+            time.sleep(get_waiting_time(read_pot(bus, address, CONFIG)))
         # Donc le deuxième while sert d'anti rebond
 
 
@@ -53,14 +57,14 @@ def light_threshold(pot, seuil, lp):
         for i in range(2):
             gpio.setpin(lp[4 - i], 1)
 
-    elif pot > seuil[0]:  # La première est allumée
+    elif pot > seuil[0]:  # La première est allumée seulement
         gpio.setpin(lp[0], 0)
         for i in range(3):
             gpio.setpin(lp[4 - i], 1)
 
-    else:  # Aucunes
+    else:  # Aucunes n'est allumée
         for i in range(4):
-            gpio.setpin(lp[4 - i], 1)
+            gpio.setpin(lp[i], 1)
 
     return
 
@@ -68,7 +72,7 @@ def light_threshold(pot, seuil, lp):
 def mode_light_threshold(bus, address, CONFIG, lp):
     seuil = [6553, 13107, 26214, 39321]
     while True:
-        light_threshold(read_i2c_pot(bus, address, CONFIG), seuil, lp)
+        light_threshold(read_pot(bus, address, CONFIG), seuil, lp)
         time.sleep(0.1)
 
 
