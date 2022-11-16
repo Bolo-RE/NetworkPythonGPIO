@@ -21,7 +21,7 @@ def mode_0():       #création de la fonction mode0
             gpio.setpin(8,0)
 
 if __name__ == "__main__":
-    gpio.initpin(12,"in")       #initialisation des entrées/boutons pourssoirs
+    gpio.initpin(12,"in")       #initialisation des entrées/boutons poussoirs
     gpio.initpin(16,"in")
     gpio.initpin(20,"in")
     gpio.initpin(21,"in")
