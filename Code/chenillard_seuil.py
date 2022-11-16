@@ -18,7 +18,7 @@ def get_waiting_time(pot):
 
 
 def mode_chenille(bus, address, CONFIG, lp, bp):
-    state = [1, 0, 0, 0]  # Si besoin on peut changer l'affichage
+    state = [0, 1, 1, 1]  # Si besoin on peut changer l'affichage
     offset = 0  # Permet le décalage de state pour chaque lumière
     fwd = True  # Booléen indiquant le sens de la chenille
     while True:
