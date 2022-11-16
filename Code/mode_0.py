@@ -37,6 +37,10 @@ def mode_0():  # création de la fonction mode0
             gpio.setpin(8, 0)
 
 
-if __name__ == "__main__":
+def main():
     init()
     mode_0()
+
+
+if __name__ == "__main__":
+    main()

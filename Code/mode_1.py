@@ -53,6 +53,10 @@ def mode_1():
             switchpin_no(8, 21)
 
 
-if __name__ == "__main__":
+def main():
     init()
     mode_1()  # appel de la fonction mode_1()
+
+
+if __name__ == "__main__":
+    main()

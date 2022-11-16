@@ -19,7 +19,7 @@ def init():
     gpio.setpin(8, 1)
 
 
-if __name__ == "__main__":
+def main():
     init()
     while True:
         choix = input(
@@ -29,3 +29,6 @@ if __name__ == "__main__":
             mode_0.mode_0()
         elif choix == "1":  # exéctution du mode_1 si l'output est 1
             mode_1.mode_1()
+
+if __name__ == "__main__":
+    main()
