@@ -11,10 +11,6 @@ def read_pot(address, CONFIG):
         data = bus.read_i2c_block_data(address, 0x00, 2)
         result = data[0]*256 + data[1]
         return data[0]*256+data[1]
- 
-
- 
- 
 
     
     
