@@ -2,7 +2,7 @@ import gpio  # import de la biblitohèque créée
 
 
 def init():
-    gpio.initpin(12, "in")  # initialisation des entrées/boutons pourssoirs
+    gpio.initpin(12, "in")  # initialisation des entrées/boutons poussoirs
     gpio.initpin(16, "in")
     gpio.initpin(20, "in")
     gpio.initpin(21, "in")
