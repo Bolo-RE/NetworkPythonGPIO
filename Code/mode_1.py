@@ -40,8 +40,7 @@ def mode_1():
         ):
             print(
                 "Attente..."
-            )  # print 'Attente...' tant qu'aucune modification n'est effectuée/
-            # qu'aucun bouton n'est utilisé
+            )  # print 'Attente...' tant qu'aucune modification n'est effectuée/qu'aucun bouton n'est utilisé
         if btn_status_12 != gpio.readpin(12):  # si pin_value du bouton change alors:
             switchpin_no(24, 12)  # on appelle la fonction switchpin_no() pour changer
             # la pin_value de la LED et ainsi l'allumer/éteindre
